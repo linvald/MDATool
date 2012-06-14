@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" size="1038,838" id="linvaldjesperMDATool0" metadata="nsuml-1.4" initialized="true" showWireOptions="1">
+  <children xsi:type="editmodel:ClassEditModel" location="439,379" size="72,29" targetConnections="//@children.0/@sourceConnections.0 //@children.8/@sourceConnections.0 //@children.5/@sourceConnections.0" id="linvaldjesperMDATool1" runTimeClassModel="linvaldjesperMDATool107;linvaldjesperMDATool49;linvaldjesperMDATool46;linvaldjesperMDATool47;linvaldjesperMDATool167">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" id="linvaldjesperMDATool33" connectionRouterKind="Manhattan" source="//@children.0" target="//@children.0" targetEnd="//@children.0/@sourceConnections.0/@children.1" label="//@children.0/@sourceConnections.0/@children.2" sourceEnd="//@children.0/@sourceConnections.0/@children.0">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,9" id="linvaldjesperMDATool34" anchorKind="FixedAtEdge" attachSource="true" roleLabel="//@children.0/@sourceConnections.0/@children.0/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="381,328" size="69,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="6.0" distanceFromWire="-53.0" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="9,0" id="linvaldjesperMDATool35" anchorKind="FixedAtEdge" navigable="true" flags="2" multiplicityLabel="//@children.0/@sourceConnections.0/@children.1/@children.1" roleLabel="//@children.0/@sourceConnections.0/@children.1/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="61,42" size="36,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-312.0" distanceFromWire="-369.0" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" location="74,44" size="19,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-310.0" distanceFromWire="-365.0" anchorKind="LastPart"/>
+      </children>
+      <children xsi:type="editmodel:WireLabelEditModel" location="62,29" size="49,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="329.00000000000006" distanceFromWire="317.99999999999994" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" id="linvaldjesperMDATool94" connectionRouterKind="Manhattan" source="//@children.0" target="//@children.1" targetEnd="//@children.0/@sourceConnections.1/@children.1" label="//@children.0/@sourceConnections.1/@children.2" sourceEnd="//@children.0/@sourceConnections.1/@children.0">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="72,9" id="linvaldjesperMDATool95" attachSource="true" roleLabel="//@children.0/@sourceConnections.1/@children.0/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="547,321" size="69,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="28.000000000000004" distanceFromWire="-75.0" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" id="linvaldjesperMDATool96" navigable="true" flags="2" multiplicityLabel="//@children.0/@sourceConnections.1/@children.1/@children.1" roleLabel="//@children.0/@sourceConnections.1/@children.1/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="195,67" size="103,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="242.0" distanceFromWire="433.00000000000006" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" location="331,864" size="19,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-555.0" distanceFromWire="340.0" anchorKind="LastPart"/>
+      </children>
+      <children xsi:type="editmodel:WireLabelEditModel" location="161,0" size="123,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-370.00000000000006" distanceFromWire="357.00000000000006" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" id="linvaldjesperMDATool267" connectionRouterKind="Manhattan" source="//@children.0" target="//@children.6" targetEnd="//@children.0/@sourceConnections.2/@children.1" label="//@children.0/@sourceConnections.2/@children.2" sourceEnd="//@children.0/@sourceConnections.2/@children.0">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="29,29" id="linvaldjesperMDATool268" attachSource="true" navigable="true" flags="2" multiplicityLabel="//@children.0/@sourceConnections.2/@children.0/@children.1" roleLabel="//@children.0/@sourceConnections.2/@children.0/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="87,32" size="30,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-418.0" distanceFromWire="-373.0" anchorKind="FirstPart"/>
+        <children xsi:type="editmodel:LabelEditModel" location="100,24" size="19,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-425.0" distanceFromWire="-365.00000000000006" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" id="linvaldjesperMDATool269" roleLabel="//@children.0/@sourceConnections.2/@children.1/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="130,95" size="24,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-453.99999999999994" distanceFromWire="-337.0" anchorKind="LastPart"/>
+      </children>
+      <children xsi:type="editmodel:WireLabelEditModel" location="786,950" size="44,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="331.0" distanceFromWire="-450.0" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" id="linvaldjesperMDATool311" connectionRouterKind="Manhattan" source="//@children.0" target="//@children.4" targetEnd="//@children.0/@sourceConnections.3/@children.1" label="//@children.0/@sourceConnections.3/@children.2" sourceEnd="//@children.0/@sourceConnections.3/@children.0">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,1" id="linvaldjesperMDATool312" attachSource="true" navigable="true" flags="2" multiplicityLabel="//@children.0/@sourceConnections.3/@children.0/@children.1" roleLabel="//@children.0/@sourceConnections.3/@children.0/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="92,15" size="30,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="294.0" distanceFromWire="-373.0" anchorKind="FirstPart"/>
+        <children xsi:type="editmodel:LabelEditModel" location="124,14" size="19,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="268.0" distanceFromWire="-374.99999999999994" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" id="linvaldjesperMDATool313" roleLabel="//@children.0/@sourceConnections.3/@children.1/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="73,41" size="20,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="245.0" distanceFromWire="-358.99999999999994" anchorKind="LastPart"/>
+      </children>
+      <children xsi:type="editmodel:WireLabelEditModel" location="147,28" size="42,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-366.0" distanceFromWire="-197.0" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Name" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showPublicMethods="true" showPackageMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" location="629,267" size="167,29" targetConnections="//@children.0/@sourceConnections.1 //@children.6/@sourceConnections.2" id="linvaldjesperMDATool74" runTimeClassModel="linvaldjesperMDATool125;linvaldjesperMDATool219">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" id="linvaldjesperMDATool198" connectionRouterKind="Manhattan" source="//@children.1" target="//@children.2" targetEnd="//@children.1/@sourceConnections.0/@children.1" label="//@children.1/@sourceConnections.0/@children.2" sourceEnd="//@children.1/@sourceConnections.0/@children.0">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="70,28" id="linvaldjesperMDATool199" attachSource="true" navigable="true" flags="2" multiplicityLabel="//@children.1/@sourceConnections.0/@children.0/@children.1" roleLabel="//@children.1/@sourceConnections.0/@children.0/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="46,0" size="103,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-353.0" distanceFromWire="-636.0" anchorKind="FirstPart"/>
+        <children xsi:type="editmodel:LabelEditModel" location="117,0" size="19,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-353.99999999999994" distanceFromWire="-607.0" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" id="linvaldjesperMDATool200" navigable="true" flags="2" multiplicityLabel="//@children.1/@sourceConnections.0/@children.1/@children.1" roleLabel="//@children.1/@sourceConnections.0/@children.1/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="227,0" size="28,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-363.00000000000006" distanceFromWire="-602.0" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" location="232,0" size="19,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-380.0" distanceFromWire="-602.0" anchorKind="LastPart"/>
+      </children>
+      <children xsi:type="editmodel:WireLabelEditModel" location="94,0" size="122,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-633.0" distanceFromWire="372.00000000000017" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" connectionRouterKind="Manual" source="//@children.1" target="//@children.9" targetEnd="//@children.1/@sourceConnections.1/@children.1" sourceEnd="//@children.1/@sourceConnections.1/@children.0">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="89,29" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="78,-1"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showPublicMethods="true" showPackageMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" location="829,378" size="71,29" targetConnections="//@children.1/@sourceConnections.0" id="linvaldjesperMDATool76" runTimeClassModel="linvaldjesperMDATool211">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" id="linvaldjesperMDATool239" connectionRouterKind="Manhattan" source="//@children.2" target="//@children.8" targetEnd="//@children.2/@sourceConnections.0/@children.1" label="//@children.2/@sourceConnections.0/@children.2" sourceEnd="//@children.2/@sourceConnections.0/@children.0">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,27" id="linvaldjesperMDATool240" attachSource="true" navigable="true" flags="2" multiplicityLabel="//@children.2/@sourceConnections.0/@children.0/@children.1" roleLabel="//@children.2/@sourceConnections.0/@children.0/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="228,0" size="28,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-449.0" distanceFromWire="-608.0" anchorKind="FirstPart"/>
+        <children xsi:type="editmodel:LabelEditModel" location="217,0" size="19,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-447.0" distanceFromWire="-624.0" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" id="linvaldjesperMDATool241" roleLabel="//@children.2/@sourceConnections.0/@children.1/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="157,17" size="130,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-486.0" distanceFromWire="-503.0" anchorKind="LastPart"/>
+      </children>
+      <children xsi:type="editmodel:WireLabelEditModel" location="129,12" size="149,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="584.0" distanceFromWire="-456.9999999999999" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showPublicMethods="true" showPackageMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" location="184,295" size="151,29" targetConnections="//@children.4/@sourceConnections.1 //@children.12/@sourceConnections.0" id="linvaldjesperMDATool78" runTimeClassModel="linvaldjesperMDATool368">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showPublicMethods="true" showPackageMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" location="227,395" size="65,29" targetConnections="//@children.0/@sourceConnections.3" id="linvaldjesperMDATool80" runTimeClassModel="linvaldjesperMDATool324">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" id="linvaldjesperMDATool333" connectionRouterKind="Manhattan" source="//@children.4" target="//@children.10" targetEnd="//@children.4/@sourceConnections.0/@children.1" label="//@children.4/@sourceConnections.0/@children.2" sourceEnd="//@children.4/@sourceConnections.0/@children.0">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,4" id="linvaldjesperMDATool334" attachSource="true" navigable="true" flags="2" multiplicityLabel="//@children.4/@sourceConnections.0/@children.0/@children.1" roleLabel="//@children.4/@sourceConnections.0/@children.0/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="29,40" size="20,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="142.0" distanceFromWire="-361.0" anchorKind="FirstPart"/>
+        <children xsi:type="editmodel:LabelEditModel" location="34,68" size="19,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="138.0" distanceFromWire="-334.0" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" id="linvaldjesperMDATool335" roleLabel="//@children.4/@sourceConnections.0/@children.1/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="65,46" size="34,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="99.0" distanceFromWire="-356.0" anchorKind="LastPart"/>
+      </children>
+      <children xsi:type="editmodel:WireLabelEditModel" location="157,402" size="49,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="31.000000000000004" distanceFromWire="-356.0" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" id="linvaldjesperMDATool355" connectionRouterKind="Manhattan" source="//@children.4" target="//@children.3" targetEnd="//@children.4/@sourceConnections.1/@children.1" label="//@children.4/@sourceConnections.1/@children.2" sourceEnd="//@children.4/@sourceConnections.1/@children.0">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="15,0" id="linvaldjesperMDATool356" attachSource="true" navigable="true" flags="2" multiplicityLabel="//@children.4/@sourceConnections.1/@children.0/@children.1" roleLabel="//@children.4/@sourceConnections.1/@children.0/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="113,0" size="20,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="372.99999999999994" distanceFromWire="136.0" anchorKind="FirstPart"/>
+        <children xsi:type="editmodel:LabelEditModel" location="91,17" size="19,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="334.99999999999994" distanceFromWire="158.00000000000014" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" id="linvaldjesperMDATool357" roleLabel="//@children.4/@sourceConnections.1/@children.1/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="91,38" size="87,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="314.0" distanceFromWire="125.0" anchorKind="LastPart"/>
+      </children>
+      <children xsi:type="editmodel:WireLabelEditModel" location="208,352" size="102,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="293.99999999999994" distanceFromWire="64.00000000000011" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showPublicMethods="true" showPackageMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" location="521,192" size="72,29" id="linvaldjesperMDATool82" runTimeClassModel="">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" connectionRouterKind="Manual" source="//@children.5" target="//@children.0" targetEnd="//@children.5/@sourceConnections.0/@children.1" sourceEnd="//@children.5/@sourceConnections.0/@children.0">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="29,29" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="42,-1"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showPublicMethods="true" showPackageMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" location="446,607" size="67,29" targetConnections="//@children.0/@sourceConnections.2" id="linvaldjesperMDATool84" runTimeClassModel="linvaldjesperMDATool280">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" id="linvaldjesperMDATool289" connectionRouterKind="Manhattan" source="//@children.6" target="//@children.7" targetEnd="//@children.6/@sourceConnections.0/@children.1" label="//@children.6/@sourceConnections.0/@children.2" sourceEnd="//@children.6/@sourceConnections.0/@children.0">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="39,29" id="linvaldjesperMDATool290" attachSource="true" navigable="true" flags="2" multiplicityLabel="//@children.6/@sourceConnections.0/@children.0/@children.1" roleLabel="//@children.6/@sourceConnections.0/@children.0/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="191,110" size="24,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-562.0" distanceFromWire="-275.9999999999999" anchorKind="FirstPart"/>
+        <children xsi:type="editmodel:LabelEditModel" location="185,108" size="19,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-564.0" distanceFromWire="-284.9999999999999" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" id="linvaldjesperMDATool291" roleLabel="//@children.6/@sourceConnections.0/@children.1/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="152,85" size="28,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-587.0" distanceFromWire="-312.0000000000001" anchorKind="LastPart"/>
+      </children>
+      <children xsi:type="editmodel:WireLabelEditModel" location="458,672" size="43,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-588.0" distanceFromWire="-232.0" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" connectionRouterKind="Manual" source="//@children.6" target="//@children.9" targetEnd="//@children.6/@sourceConnections.1/@children.1" sourceEnd="//@children.6/@sourceConnections.1/@children.0">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="60,29" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="57,-1"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" connectionRouterKind="Manual" source="//@children.6" target="//@children.1" targetEnd="//@children.6/@sourceConnections.2/@children.1" sourceEnd="//@children.6/@sourceConnections.2/@children.0">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="53,-1" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="63,29"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showPublicMethods="true" showPackageMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" location="444,724" size="71,29" targetConnections="//@children.6/@sourceConnections.0" id="linvaldjesperMDATool86" runTimeClassModel="linvaldjesperMDATool302">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showPublicMethods="true" showPackageMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" location="610,546" size="204,29" targetConnections="//@children.2/@sourceConnections.0" id="linvaldjesperMDATool88" runTimeClassModel="linvaldjesperMDATool146;linvaldjesperMDATool177;linvaldjesperMDATool252">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" id="linvaldjesperMDATool154" connectionRouterKind="Manhattan" source="//@children.8" target="//@children.0" targetEnd="//@children.8/@sourceConnections.0/@children.1" label="//@children.8/@sourceConnections.0/@children.2" sourceEnd="//@children.8/@sourceConnections.0/@children.0">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="83,0" id="linvaldjesperMDATool155" attachSource="true" roleLabel="//@children.8/@sourceConnections.0/@children.0/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="170,20" size="130,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="483.0" distanceFromWire="454.00000000000006" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" id="linvaldjesperMDATool156" navigable="true" flags="2" multiplicityLabel="//@children.8/@sourceConnections.0/@children.1/@children.1" roleLabel="//@children.8/@sourceConnections.0/@children.1/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="31,0" size="30,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="453.0" distanceFromWire="449.00000000000006" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" location="164,27" size="19,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="408.0" distanceFromWire="322.9999999999999" anchorKind="LastPart"/>
+      </children>
+      <children xsi:type="editmodel:WireLabelEditModel" location="100,15" size="150,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="417.00000000000006" distanceFromWire="-453.9999999999999" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showPublicMethods="true" showPackageMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" location="778,672" size="170,29" targetConnections="//@children.6/@sourceConnections.1 //@children.1/@sourceConnections.1" id="linvaldjesperMDATool90" runTimeClassModel="">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showPublicMethods="true" showPackageMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" location="60,395" size="77,29" targetConnections="//@children.4/@sourceConnections.0" id="linvaldjesperMDATool92" runTimeClassModel="linvaldjesperMDATool346">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showPublicMethods="true" showPackageMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:NotepadEditModel" location="715,727" size="195,38" note="Apply XMI on UML meta MOF model&#xD;&#xA;"/>
+  <children xsi:type="editmodel:NotepadEditModel" location="151,241" size="242,24" note="No prior knowledge of metamodel nessecary">
+    <sourceConnections xsi:type="editmodel:IndicationEditModel" connectionRouterKind="Manual" source="//@children.12" target="//@children.3" targetEnd="//@children.12/@sourceConnections.0/@children.1" sourceEnd="//@children.12/@sourceConnections.0/@children.0">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="63,24" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="133,-1"/>
+    </sourceConnections>
+  </children>
+  <children xsi:type="editmodel:NotepadEditModel" location="491,268" size="79,24" note="Implements"/>
+  <children xsi:type="editmodel:NotepadEditModel" location="425,512" size="52,24" note="maps"/>
+  <children xsi:type="editmodel:NotepadEditModel" location="335,413" size="52,24" note="maps"/>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showPublicMethods="true" showPackageMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showInterfaceStereotype="true" showClassStereotype="true" showPackageStereotype="true"/>
+</editmodel:ClassDiagramEditModel>

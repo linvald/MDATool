@@ -1,0 +1,289 @@
+//http://www.google.dk/search?q=cache:iyw2XN33HScJ:www.webcubed.com/java2/+java+shape+handle&hl=da&ie=UTF-8
+package mdatool.gui.application;
+
+import javax.swing.JInternalFrame;
+import javax.swing.JDesktopPane;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JMenuBar;
+import javax.swing.JFrame;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import java.awt.event.*;
+import java.awt.image.ImageObserver;
+import java.lang.reflect.Constructor;
+import java.util.Locale;
+import java.util.*;
+
+import javax.swing.*;
+
+import mdatool.gui.StatusPanel;
+import mdatool.gui.canvas.ShapeCanvas;
+import mdatool.gui.moftree.TreePanel;
+import mdatool.gui.shapes.LineShape;
+import mdatool.gui.shapes.RectShape;
+import mdatool.gui.shapes.UmlShape;
+import mdatool.gui.toolbar.ToolBarActionFactory;
+
+
+
+
+import java.awt.*;
+
+
+public final class Main extends JFrame {
+	private static Main _instance = new Main();
+	
+	private Container desktop;
+	private StatusPanel _status;
+	
+	private ShapeCanvas _selectedFrame = null;
+
+	private JSplitPane _splitHorizontal,_splitVertical;
+	private JPanel _panelLeftSide, _panelToolbar, _panelCenter,_panelTop;
+	private JToolBar _toolBar;
+
+	private Dimension _screenSize;
+	private JTabbedPane _tabbedCanvasPane;
+	private JPopupMenu tabPopup;
+	private Map _canvasMap;
+	
+ 
+	protected Main() {
+		super("Transformation uml Editor"); 
+		initialize();
+		createFrame();
+		setUpSomeShapes();   
+	}
+    
+	/**
+	 * 
+	 */
+	private void setUpSomeShapes() {
+		//UmlShape uml = new UmlShape(100,100,200,150,Color.black, Color.red);
+		UmlShape uml1 = new UmlShape(300,100,200,150,Color.black, Color.PINK);
+		//RectShape uml = new RectShape(100,100,200,150,Color.black, Color.darkGray);
+		//this.getActiveCanvasFrame().addShape(uml);
+		this.getActiveCanvasFrame().addShape(uml1);
+	}
+
+	//singleton 
+	public static Main getInstance(){
+		return _instance;
+	}
+	
+	private void initialize(){
+		_canvasMap = new HashMap();
+		_screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(0, 0, _screenSize.width, _screenSize.height);
+                  
+		desktop = getContentPane();
+		
+		BorderLayout layout = new BorderLayout();
+		desktop.setLayout(layout);
+		desktop.setBackground(Color.yellow)	;
+		desktop.setSize(_screenSize);
+		setupToolBarPanel();  
+  
+		setJMenuBar(createMenuBar());
+        
+		//Quit this app when the big window closes.
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
+   
+
+		_panelTop = new JPanel();
+		_panelTop.setLayout(new BorderLayout());
+		_panelTop.setBackground(Color.green);
+		_panelTop.setSize(_screenSize.width,_screenSize.height - 170);
+		_panelTop.setMinimumSize(new Dimension(300,300));
+		
+		_status = new StatusPanel();
+		Dimension preferred = new Dimension(_screenSize.width, 175);
+		_status.setSize(preferred);
+		_status.setPreferredSize(preferred);
+		Dimension statusMinimum = new Dimension(preferred);
+		_status.setMinimumSize(statusMinimum);
+		_status.setStatusLabelColor(Color.white);
+		_status.addStatusLine("Ready...");
+		
+		_splitVertical = new JSplitPane(JSplitPane.VERTICAL_SPLIT,_panelTop, _status);
+		_splitVertical.setOneTouchExpandable(true);
+		_splitVertical.setDividerLocation(getHeight()-170);
+
+		
+		//_splitVertical.setPreferredSize(new Dimension(800, 400));
+		getContentPane().add(_splitVertical);
+		
+				
+		//HORIZONTAL
+		_panelLeftSide = new JPanel();
+		_panelLeftSide.setBackground(Color.white);
+		//JTree tree = new JTree();
+		_panelLeftSide.setLayout(new GridLayout(1,1));
+		//_panelLeftSide.add("",new TreePanel());
+		JScrollPane navigationScrollPane = new JScrollPane(_panelLeftSide);
+			
+		_panelCenter = new JPanel();
+		JScrollPane centerScrollPane = new JScrollPane(_panelCenter);
+		_panelCenter.setBackground(Color.white);
+		//tabbedpane
+		_tabbedCanvasPane = new JTabbedPane();
+		_panelCenter.setLayout(new GridLayout(1,1));
+		_panelCenter.add(_tabbedCanvasPane);
+		
+		_tabbedCanvasPane.addMouseListener(new MouseAdapter () {
+			public void mousePressed(MouseEvent e) {
+				if(e.getModifiers()==InputEvent.BUTTON3_MASK){
+				tabPopup.show(e.getComponent(),
+					   e.getX(), e.getY());    
+				}
+				if(_tabbedCanvasPane.getTabCount()>0 && _tabbedCanvasPane.getModel().isSelected() ) { 
+					//int selectedIndex = _tabbedCanvasPane.getSelectedIndex();
+					if(_tabbedCanvasPane.getSelectedComponent() instanceof JScrollPane){
+						JScrollPane scroll = (JScrollPane)_tabbedCanvasPane.getSelectedComponent();
+						//_selectedFrame = (ShapeCanvas)scroll.getClientProperty("canvas");
+						setActiveCanvasFrame((ShapeCanvas)scroll.getClientProperty("canvas"));
+					}
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+       			
+			}
+		});
+		_tabbedCanvasPane.addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent e){
+				if(Main.getInstance()!=null){
+
+				}	
+			}	        	
+		});
+
+		_splitHorizontal = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,navigationScrollPane, centerScrollPane);
+		Dimension leftMinimum = new Dimension(200,400);
+		_panelLeftSide.setMinimumSize(leftMinimum);
+		Dimension centerMinimum = new Dimension(400,400);
+		_panelCenter.setMinimumSize(centerMinimum);
+		_splitHorizontal.setOneTouchExpandable(true);
+		_splitHorizontal.setDividerLocation(150);
+		_splitHorizontal.setPreferredSize(new Dimension(400, 200));
+		_panelTop.add(_splitHorizontal,BorderLayout.CENTER);	
+	}
+   	
+	private void setupToolBarPanel(){
+		ToolBarActionFactory factory = ToolBarActionFactory.getToolBarActionFactory();
+		_panelToolbar = new JPanel(new GridLayout(1,1));
+		_panelToolbar.setSize(desktop.getWidth(),20);
+		_panelToolbar.setBackground(Color.blue);
+   		
+		_toolBar = new JToolBar();
+   		
+		_panelToolbar.setBounds(0,0,_screenSize.width,20);
+   		
+		_toolBar.setBounds(0,0,desktop.getWidth(),ImageObserver.HEIGHT);
+		_toolBar.add(factory.makeLoadXmiAction());
+		_toolBar.add(factory.makeNewAction());
+		_toolBar.add(factory.makeLineAction());
+		_toolBar.add(factory.makeClassAction());
+		_panelToolbar.add(_toolBar,BorderLayout.WEST);
+		_panelToolbar.setVisible(true);
+		desktop.add(_panelToolbar,BorderLayout.NORTH);
+	
+	}
+   	
+	/**
+	 * Method getActiveCanvasFrame.
+	 * @return UMLCanvasFrame
+	 */
+	public ShapeCanvas getActiveCanvasFrame(){
+		return _selectedFrame;
+		
+	}
+	
+	public void setActiveCanvasFrame(ShapeCanvas active){
+			_selectedFrame = active;
+	} 
+	 
+    
+	public void setStatus(String s){
+		_status.addStatusLine(s);	
+	}
+	
+	protected JMenuBar createMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menuFile = new JMenu("File");
+		JMenu menuView = new JMenu("View");
+		JMenuItem menuItem = new JMenuItem("New UML canvas");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createFrame();
+			}
+		});
+		menuFile.add(menuItem);
+        
+		menuBar.add(menuFile);
+		menuBar.add(menuView);
+
+		return menuBar;
+	}
+	
+	public void createFrame() {    
+		ShapeCanvas canvas = new ShapeCanvas(5000,5000);
+		int id = ShapeCanvas.getCanvasNewNumber();
+		//canvas.set_decorator((ICanvasDecorator)new CanvasLinedDecorator()); 
+		JScrollPane scroll = new JScrollPane(canvas);
+		scroll.putClientProperty("canvas",canvas);
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		
+		_tabbedCanvasPane.addTab("Untitled_" + id,scroll);
+		
+		_tabbedCanvasPane.setSelectedIndex(_tabbedCanvasPane.getTabCount()-1);
+      
+		//add entry in the set
+		_canvasMap.put(new Integer(_tabbedCanvasPane.getTabCount()-1),canvas);
+     	
+		tabPopup = new JPopupMenu();
+		JMenuItem menuItemClose = new JMenuItem("Close");
+     	
+		menuItemClose.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				removeSelectedTab();
+			}	
+		});
+		tabPopup.add(menuItemClose);
+		setActiveCanvasFrame( canvas);
+	//	setStatus("Active canvas after created first frame:" + Main.getInstance().getActiveCanvasFrame() +"selected:"+_tabbedCanvasPane.getSelectedIndex() );
+		//canvas.add(tabPopup);  
+	}
+
+ /**
+	 * Remove the currently selected tab from the tabbed pane.
+	 **/
+	private void removeSelectedTab() { 
+		if( _tabbedCanvasPane.getModel().isSelected() ) { 
+			int selectedIndex = _tabbedCanvasPane.getSelectedIndex();
+			_tabbedCanvasPane.removeTabAt( selectedIndex );
+			_tabbedCanvasPane.revalidate();
+		} 
+	}
+    
+	public JPanel getTreePanel(){
+		return _panelLeftSide;
+	}
+        
+	public static void main(String[] args) {
+		Main frame = Main.getInstance();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setBounds(0, 0,  screenSize.width, screenSize.height);
+		//frame.pack();
+		frame.getContentPane().doLayout();
+		frame.setVisible(true); 
+		frame.getActiveCanvasFrame().repaint();
+
+	}
+}

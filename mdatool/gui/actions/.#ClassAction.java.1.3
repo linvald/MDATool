@@ -1,0 +1,38 @@
+package mdatool.gui.toolbar;
+
+import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
+
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.event.*;
+import javax.swing.*;
+
+import mdatool.gui.application.Main;
+import mdatool.gui.shapes.UmlShape;
+
+
+/**
+ * @author Jesper Linvald (jesper@linvald.net)
+ * Filename: NewAction.java
+ * Created: 14-02-2003 [23:23:29]
+ */
+public class ClassAction extends AbstractAction {
+	private ToolBarActionFactory toolBarActionFactory;
+
+	
+	protected ClassAction(){
+		super("Class");
+		putValue(Action.SMALL_ICON, new ImageIcon(ClassAction.class.getResource("./img/class.gif")));	
+	}
+	public void actionPerformed(ActionEvent e){
+		Main.getInstance().setStatus("Class tool selected...");
+		UmlShape uml = new UmlShape(300,100,200,150,Color.black, Color.PINK);
+
+		Main.getInstance().setStatus("Trying to add shape to canvas from ClassAction - frame is " + Main.getInstance().getActiveCanvasFrame());
+		Main.getInstance().getActiveCanvasFrame().addShape(uml);
+		Main.getInstance().getActiveCanvasFrame().repaintShape(uml);
+		
+		
+	}
+}

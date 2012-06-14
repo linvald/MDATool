@@ -1,0 +1,539 @@
+package mdatool.gui.canvas;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.CubicCurve2D;
+import java.applet.Applet;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+
+import mdatool.gui.application.Main;
+import mdatool.gui.shapes.*;
+import mdatool.gui.shapes.Shape;
+
+public class ShapeCanvas extends JPanel implements MouseListener, MouseMotionListener, PropertyChangeListener {
+
+	// This class represents a canvas that can display colored shapes and
+	// let the user drag them around.  It uses an off-screen images to 
+	// make the dragging look as smooth as possible.
+
+	private int id;
+	public static int canvasCount;
+	private JPopupMenu _contextMenu;
+	Image offScreenCanvas = null; // off-screen image used for double buffering
+	Graphics offScreenGraphics; // graphics context for drawing to offScreenCanvas
+	ArrayList shapes = new ArrayList();
+	Color currentColor = Color.red; // current color; when a shape is created, this is its color
+	private int canvasWidth, canvasHeight;
+	JMenuItem _save;
+	private boolean formingNewShape = false;
+	private boolean reshaping = false;
+	private int downX, downY;
+	
+	private Shape pickedShape = null;
+	private Shape oldPickedShape = null;
+	private Shape highlightedShape = null;
+	private int step = 12;
+	
+	public ShapeCanvas() {
+		initCanvas();
+	}
+
+	public ShapeCanvas(int canvasWidth, int canvasHeight) {
+		initCanvas();
+		this.setSize(canvasWidth, canvasHeight);
+
+	}
+
+	public static int getCanvasNewNumber() {
+		return ShapeCanvas.canvasCount;
+	}
+	private void initCanvas() {
+		setBackground(Color.white);
+		addMouseListener(this);
+		addMouseMotionListener(this);
+		
+		this.setupContextMenu();
+		ShapeCanvas.canvasCount++;
+		this.id = canvasCount++;
+	}
+	synchronized public void paint(Graphics g) {
+		// In the paint method, everything is drawn to an off-screen canvas, and then
+		// that canvas is copied onto the screen.
+		//if(offScreenGraphics==null)
+		
+		makeOffScreenCanvas();
+		g.drawImage(offScreenCanvas, 0, 0, this);
+		//	  Graphics2D g2D = (Graphics2D)g;
+		//	  g2D.draw(new CubicCurve2D.Double(100,100,300,800,400,900,100,50));
+	}
+
+	public void update(Graphics g) {
+		paint(g);
+	}
+
+	void makeOffScreenCanvas() {
+		// Erase the off-screen canvas and redraw all the shapes in the list.
+		// (First, if canvas has not yet been created, then create it.)
+		if (offScreenCanvas == null) {
+			offScreenCanvas = createImage(getSize().width, getSize().height);
+			offScreenGraphics = offScreenCanvas.getGraphics();
+		}
+		offScreenGraphics.setColor(getBackground());
+		offScreenGraphics.fillRect(0, 0, getSize().width, getSize().height);
+		//  int top = shapes.size();
+		for (Iterator iter = shapes.iterator(); iter.hasNext();) {
+			Shape shape = (Shape) iter.next();
+			shape.draw(offScreenGraphics);
+		}
+
+	}
+
+	public void repaintShape(Shape s){
+		for (Iterator iter = shapes.iterator(); iter.hasNext();) {
+					Shape shape = (Shape) iter.next();
+					if(shape.equals(s))
+						shape.draw(offScreenGraphics);
+		}
+	}
+	
+	public void replaceDrawing(ArrayList newDrawing) {
+		this.shapes = newDrawing;
+	}
+
+	public synchronized void addShape(Shape shape) {
+		// Add the shape to the canvas, and set its size/position and color.
+		// The shape is added at the top-left corner, with size 50-by-30.
+		// Then redraw the canvas to show the newly added shape.
+		//shape.setColor(currentColor);
+		// shape.reshape(shape.getWidth(),shape.getHeight(),50,30);
+		shape.addPropertyChangeListener(this);
+		shapes.add(shape);
+		repaint();
+	}
+	
+	public boolean highlightShape(MouseEvent e, int x, int y) {
+		Shape lastHighlightedShape;
+		boolean highlightChange = false;
+
+		lastHighlightedShape = highlightedShape;
+		if (lastHighlightedShape != null) {
+			if (!lastHighlightedShape.containsPoint(x, y)) {
+				lastHighlightedShape.highlight(false);
+				lastHighlightedShape = highlightedShape = null;
+				highlightChange = true;
+			}
+		}
+
+		for (int i = shapes.size() - 1; i >= 0; i--) {
+			Shape currentShape = (Shape) shapes.get(i);
+			if (currentShape.containsPoint(x, y)) {
+				highlightedShape = currentShape;
+				highlightChange = (highlightedShape != lastHighlightedShape);
+				if (highlightChange) {
+					currentShape.highlight(true);
+					if (lastHighlightedShape != null)
+						lastHighlightedShape.highlight(false);
+				}
+				break;
+			}
+		}
+		if (highlightChange)
+			repaint();	return highlightChange;
+	}
+	
+	public boolean selectShape(MouseEvent e, int x, int y)
+	  {
+		  boolean selected = false;
+
+		  if (pickedShape != null)
+		  {
+			  reshaping = pickedShape.selectHandleDecorators(e, x, y);
+			  if (reshaping)
+				  return reshaping;
+		  }
+            
+        
+		  if (oldPickedShape != null)
+		  {
+			  oldPickedShape.select(e, false);
+			  oldPickedShape = null;
+		  }
+
+		  for (int i = shapes.size() - 1; i >= 0; i--)
+		  {
+			  Shape currentShape = (Shape) shapes.get(i);
+			  if (currentShape.containsPoint(x,y))
+			  {
+				  pickedShape = oldPickedShape = currentShape;
+				  pickedShape.dragStartX = pickedShape.getX();
+				  pickedShape.dragStartY = pickedShape.getY();
+				  selected = pickedShape.select(e, true);
+				  break;
+			  }
+		  }
+		  if (!selected)
+		  {
+			  pickedShape = null;
+		  }
+    
+		  repaint();
+		  return selected;
+	  }
+
+	
+	// --------------------  dragging ---------------------------
+
+//	Shape shapeBeingDragged = null;
+
+	int lastX; // During dragging, these record the x and y coordinates of the
+	int lastY; //    previous position of the mouse.
+
+	public synchronized void mousePressed(MouseEvent evt) {
+		// User has pressed the mouse.  Find the shape that the user has clicked on, if
+		// any.  If there is a shape at the position when the mouse was clicked, then
+		// start dragging it.  If the user was holding down the shift key, then bring
+		// the dragged shape to the front, in front of all the other shapes.
+		
+		boolean selected;
+				Color newFillColor, newLineColor;
+				float red, green, blue;
+				Shape newShape;
+				int x, y;
+				x = evt.getX();
+				y = evt.getY();
+        
+				downX = x;
+				downY = y;
+		
+					selectShape(evt, x, y);
+					return; 
+				
+		
+		/*int x = evt.getX(); // x-coordinate of point where mouse was clicked
+		int y = evt.getY(); // y-coordinate of point 
+		for (Iterator iter = shapes.iterator(); iter.hasNext();) {
+			Shape shape = (Shape) iter.next();
+			if (shape.containsPoint(x, y)) {
+				shapeBeingDragged = shape;
+				lastX = x;
+				lastY = y;
+				//shape.setColor(Color.BLUE);
+				if (evt.isShiftDown()) { // Bring the shape to the front by moving it to
+					shapes.remove(shape); //       the end of the list of shapes.
+					shapes.add(shape);
+					repaint(); // repaint canvas to show shape in front of other shapes
+				}
+				return;
+			}
+		}*/
+	}
+
+	/*public synchronized void mouseDragged(MouseEvent evt) {
+		// User has moved the mouse.  Move the dragged shape by the same amount.
+		int x = evt.getX();
+		int y = evt.getY();
+		if (shapeBeingDragged != null) {
+			shapeBeingDragged.move(x, y);
+			lastX = x;
+			lastY = y;
+			repaint(); // redraw canvas to show shape in new position
+		}
+	}*/
+	public void mouseDragged(MouseEvent e)
+	   {
+		   int dragW, dragH, newWidth, newHeight, newX, newY ;
+		   Shape newShape;
+		   boolean shiftHeld;
+
+		   // if nothing's picked, there's nothing to drag 
+		   // so get outtahere
+		   if (pickedShape == null)
+			   return;
+
+		   int x, y;
+		   int vX = 0, vY = 0;
+		   x = e.getX();
+		   y = e.getY();
+
+		   shiftHeld = e.isShiftDown();
+        
+		   dragW = x - downX;
+		   dragH = y - downY;
+
+		  // if (whichTool == Tools.POINTER)
+		   //{    
+			   if (reshaping)
+			   {
+				   if (pickedShape != null)
+				   {
+					   pickedShape.moveHandleDecorator( x, y );
+                
+					   repaint();
+				   }
+				   return;
+			   }
+		   //}
+		   // move pickedShape as long as its not still being formed
+		   if (!formingNewShape)
+		   {
+			   if (shiftHeld) // constrain movement to one axis
+			   {
+				   if (Math.abs(dragW) > Math.abs(dragH))
+				   {       
+					   newX = pickedShape.dragStartX + dragW;
+					   newY = pickedShape.dragStartY;
+				   }
+				   else
+				   {
+					   newX = pickedShape.dragStartX;
+					   newY = pickedShape.dragStartY + dragH;
+				   }
+			   }
+			   else
+			   {
+				   newX = pickedShape.dragStartX + dragW;
+				   newY = pickedShape.dragStartY + dragH;
+			   }
+			   pickedShape.move(newX, newY);
+			   repaint();
+			   return;
+		   }
+
+		//   if (whichTool == Tools.POINTER)
+		//	   return;
+        
+        
+		   // drag newShape to size
+		  /* if (shapes.size() >0)
+		   {
+			   newShape = (Shape) shapes.get(shapes.size()-1);
+			   if (dragW >= 0)
+			   {
+				   newX = downX;
+				   newWidth = dragW;
+			   }
+			   else
+			   {
+				   newX = x;
+				   newWidth = -dragW;
+			   }
+            
+			   if (dragH >= 0)
+			   {
+				   newY = downY;
+				   newHeight = dragH;
+			   }
+			   else
+			   {
+					newY = y;
+					newHeight = -dragH;
+			   }
+			   if (shiftHeld)  // constrain width == height
+			   {
+				   if (newWidth > newHeight)
+					   newHeight = newWidth;
+				   else
+					   newWidth = newHeight;
+			   }                   
+			   newShape.move( newX, newY );
+			   newShape.size( newWidth, newHeight );
+		   vX = step - 2 * Math.round( (float)Math.random() * step);
+		   vY = step - 2 * Math.round( (float)Math.random() * step);
+
+            
+			   repaint();
+		   }*/
+    
+		   return;
+	   }
+
+	public synchronized void mouseReleased(MouseEvent evt) {
+		int x = evt.getX();
+		int y = evt.getY();
+		formingNewShape = false;
+
+	}
+
+	public void mouseEntered(MouseEvent evt) {
+		highlightShape(evt,evt.getX(),evt.getY());
+	}
+	public void mouseExited(MouseEvent evt) {}
+	
+	public void mouseMoved(MouseEvent evt) {
+		int x, y;
+		x = evt.getX();
+		y = evt.getY();
+		highlightShape(evt, x, y);
+	return;
+	}
+	
+
+	public void mouseClicked(MouseEvent evt) {
+		Main.getInstance().setStatus("MOUSE CLICKED");
+
+		int x = evt.getX(); // x-coordinate of point where mouse was clicked
+		int y = evt.getY(); // y-coordinate of point 
+
+		if (shapes.size() > 0) {
+			Shape shape = null;
+			Shape hit = null;
+			for (Iterator iter = shapes.iterator(); iter.hasNext();) {
+				shape = (Shape) iter.next();
+				if (shape.containsPoint(x, y)) {
+					//shape.setSelected(true);
+					//shape.select(evt,true);
+					//this.highlightedShape = shape;
+					//this.pickedShape = shape;
+					//highlightShape(evt, x,y);
+					hit = shape;
+					if (evt.getClickCount() == 2) {
+						shape.handleDoubleClick(evt.getPoint());
+					}
+					if (evt.getButton() == 3) {
+						Main.getInstance().setStatus("It was a right click");
+						if (shape != null) {
+							Main.getInstance().setStatus("To show context dependent menu for shape");
+							showShapeContextMenu(shape, evt.getPoint());
+						}
+					}
+				} else {
+					//shape.setSelected(false);
+					shape.select(evt, false);
+					if (evt.getModifiers() == InputEvent.BUTTON3_DOWN_MASK) {
+						showContextMenu(evt.getX(), evt.getY());
+					}
+				}
+			}
+			if (hit == null && evt.getButton() == 3) {
+				//we clicked canvas
+				showContextMenu(evt.getX(), evt.getY());
+				Main.getInstance().setStatus("we clicked canvas");
+			}
+		}
+		repaint();
+	}
+
+	/**
+	 * @return
+	 */
+	public int getCanvasHeight() {
+		return canvasHeight;
+	}
+
+	/**
+	 * @return
+	 */
+	public int getCanvasWidth() {
+		return canvasWidth;
+	}
+
+	/**
+	 * @param i
+	 */
+	public void setCanvasHeight(int i) {
+		canvasHeight = i;
+	}
+
+	/**
+	 * @param i
+	 */
+	public void setCanvasWidth(int i) {
+		canvasWidth = i;
+	}
+
+	public void setupContextMenu() {
+		this._contextMenu = new JPopupMenu();
+
+		JMenu shapes = new JMenu("UML");
+
+		JMenuItem save = new JMenuItem("Save");
+		save.addActionListener(new MenuActionListener());
+		save.setName("save");
+
+		//JMenuItem shapes = new JMenuItem("shapes");
+
+		JMenuItem clazz = new JMenuItem("Class");
+		clazz.setName("Class");
+		clazz.addActionListener(new MenuActionListener());
+		shapes.add(clazz);
+
+		_contextMenu.add(shapes);
+		_contextMenu.addSeparator();
+		_contextMenu.add(save);
+
+	}
+	class MenuActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			Object source = e.getSource();
+			if (source instanceof JMenuItem) {
+				JMenuItem item = (JMenuItem) source;
+				if (item.getName().equals("Class")) {
+					Main.getInstance().setStatus("Creating a class");
+					UmlShape uml = new UmlShape(50,50,200,150);
+					//uml.setLeft(50);
+					//uml.setTop(50);
+					addShape(uml);
+
+				}
+
+				if (item.getName().equals("save")) {
+					JFileChooser jfc = new JFileChooser();
+					jfc.setSize(500, 250);
+					jfc.setDialogTitle("Save as XMI");
+					int choice = jfc.showSaveDialog(null);
+				}
+			}
+		}
+	} // End MenuActionListener
+	/**
+	 * @see gui.IContextMenu#showContextMenu()
+	 */
+	public void showContextMenu(int locX, int locY) {
+		_contextMenu.show(this, locX, locY);
+		repaint();
+
+	}
+	public void showShapeContextMenu(Shape s, Point p) {
+		JPopupMenu menu = s.getContextMenu(p);
+		menu.show(this, p.x, p.y);
+		repaint();
+	}
+
+	/**
+	 * @return
+	 */
+	public int getId() {
+		return canvasCount;
+	}
+
+	/**
+	 * @return
+	 */
+	public ArrayList getShapes() {
+		return shapes;
+	}
+
+	/**
+	 * @param list
+	 */
+	public void setShapes(ArrayList list) {
+		shapes = list;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	public void propertyChange(PropertyChangeEvent arg0) {
+		this.repaint();
+	}
+
+}

@@ -1,0 +1,406 @@
+//http://www.google.dk/search?q=cache:iyw2XN33HScJ:www.webcubed.com/java2/+java+shape+handle&hl=da&ie=UTF-8
+package mdatool.gui.application;
+
+import javax.swing.JInternalFrame;
+import javax.swing.JDesktopPane;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JMenuBar;
+import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.InternalFrameEvent;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyVetoException;
+import javax.swing.plaf.*;
+import javax.swing.border.*;
+import javax.swing.event.*;
+import javax.swing.*;
+
+import java.awt.event.*;
+import java.awt.image.ImageObserver;
+import java.lang.reflect.Constructor;
+import java.util.Locale;
+import java.util.*;
+
+import javax.swing.*;
+
+import mdatool.gui.StatusBar;
+import mdatool.gui.StatusPanel;
+import mdatool.gui.canvas.ShapeCanvas;
+import mdatool.gui.moftree.TreePanel;
+import mdatool.gui.shapes.LineShape;
+import mdatool.gui.shapes.RectShape;
+import mdatool.gui.shapes.RoundRectShape;
+import mdatool.gui.shapes.UmlShape;
+import mdatool.gui.toolbar.ConfigurationPanel;
+import mdatool.gui.toolbar.ToolBarActionFactory;
+import mdatool.gui.toolbar.UserPreferences;
+
+
+
+
+import java.awt.*;
+import java.beans.PropertyVetoException;
+
+
+public final class Main extends JFrame implements InternalFrameListener,PropertyChangeListener{
+	
+	//singleton
+	private static final Main _instance = new Main();
+	protected int _iFrameCount;
+	private Container desktop;
+	private StatusPanel _status;
+	protected StatusBar statusBar;
+	private ShapeCanvas _selectedFrame = null;
+
+	private JSplitPane _splitHorizontal,_splitVertical;
+	private JPanel _panelLeftSide, _panelToolbar, _panelCenter,_panelTop, _bottomPanel;
+	private JToolBar _toolBar;
+
+	private Dimension _screenSize;
+	private JTabbedPane _tabLeft;
+	private JPopupMenu tabPopup;
+	private Map _canvasMap;
+	private JDesktopPane _desktop;
+	protected ConfigurationPanel _config;
+
+ 
+	protected Main() {
+		super("Transformation uml Editor"); 
+		initialize();
+		//createFrame();
+		newFrame("");
+		setDefaultLookAndFeelDecorated(true);
+
+	}
+    
+
+
+	//singleton 
+	public static Main getInstance(){
+		return _instance;
+	}
+	
+	private void initialize(){
+		_canvasMap = new HashMap();
+		_config = new ConfigurationPanel();
+		_screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(0, 0, _screenSize.width, _screenSize.height);
+		_desktop = new JDesktopPane();
+                  
+		desktop = getContentPane();
+		
+		BorderLayout layout = new BorderLayout();
+		desktop.setLayout(layout);
+		desktop.setBackground(Color.yellow)	;
+		desktop.setSize(_screenSize);
+		setupToolBarPanel();  
+  
+		setJMenuBar(createMenuBar());
+        
+		//Quit this app when the big window closes.
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
+   
+		_panelTop = new JPanel();
+		_panelTop.setLayout(new BorderLayout());
+		_panelTop.setBackground(Color.green);
+		_panelTop.setSize(_screenSize.width,_screenSize.height - 170);
+		_panelTop.setMinimumSize(new Dimension(300,300));
+		
+		_status = new StatusPanel();
+		_status.addStatusLine("Ready...");
+		
+		statusBar = new StatusBar(500,30,"Progress:",Color.green);
+		_bottomPanel = new JPanel();
+		_bottomPanel.setLayout(new GridLayout(2,1));
+
+		//_bottomPanel.add(_status);		
+		getContentPane().add("South",statusBar);
+		
+		_splitVertical = new JSplitPane(JSplitPane.VERTICAL_SPLIT,_panelTop, _status);
+		_splitVertical.setOneTouchExpandable(true);
+		_splitVertical.setDividerLocation(800);
+	
+		getContentPane().add(_splitVertical);
+					
+		//HORIZONTAL
+		_tabLeft = new JTabbedPane();
+		
+		_panelLeftSide = new JPanel();
+		_panelLeftSide.setBackground(Color.white);
+		_panelLeftSide.setLayout(new GridLayout(1,1));
+		JScrollPane navigationScrollPane = new JScrollPane(_panelLeftSide);
+		_tabLeft.addTab("Conf",_config);
+		_tabLeft.addTab("MOF", navigationScrollPane);
+			
+		_panelCenter = new JPanel();
+		//JScrollPane centerScrollPane = new JScrollPane(_panelCenter);
+		_panelCenter.setBackground(Color.white);
+		_panelCenter.setLayout(new GridLayout(1,1));
+		_panelCenter.add(_desktop);
+		
+		_splitHorizontal = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,_tabLeft, _panelCenter);
+		Dimension leftMinimum = new Dimension(200,400);
+		_panelLeftSide.setMinimumSize(leftMinimum);
+		Dimension centerMinimum = new Dimension(400,400);
+		_panelCenter.setMinimumSize(centerMinimum);
+		_splitHorizontal.setOneTouchExpandable(true);
+		_splitHorizontal.setDividerLocation(150);
+		_splitHorizontal.setPreferredSize(new Dimension(400, 700));
+		_panelTop.add(_splitHorizontal,BorderLayout.CENTER);	
+				
+		Dimension desktopSize = new Dimension(getWidth(), 900);
+		Dimension statusSize = new Dimension(getWidth(), 150);
+		Dimension leftSize = new Dimension(150, getHeight());
+
+		_status.setMinimumSize(statusSize);
+		_status.setPreferredSize(statusSize);
+
+		navigationScrollPane.setMinimumSize(leftSize);
+		navigationScrollPane.setPreferredSize(leftSize);
+
+		_desktop.setMinimumSize(desktopSize);
+		_desktop.setPreferredSize(desktopSize);
+
+		Dimension preferred = new Dimension(_screenSize.width, 50);
+		_status.setSize(preferred);
+		_bottomPanel.setPreferredSize(preferred);
+		_bottomPanel.setMinimumSize(preferred);
+
+		_status.setMinimumSize(preferred);
+		_status.setStatusLabelColor(Color.white);
+
+		setSize(_screenSize.width, _screenSize.height);
+		setBounds(0, 0, _screenSize.width, _screenSize.height);
+	}
+   	 	
+	private void setupToolBarPanel(){
+		ToolBarActionFactory factory = ToolBarActionFactory.getToolBarActionFactory();
+		_panelToolbar = new JPanel(new GridLayout(1,1));
+		_panelToolbar.setSize(desktop.getWidth(),20);
+		_panelToolbar.setBackground(Color.blue);
+   		
+		_toolBar = new JToolBar();
+   		
+		_panelToolbar.setBounds(0,0,_screenSize.width,20);
+   		
+		_toolBar.setBounds(0,0,desktop.getWidth(),ImageObserver.HEIGHT);
+		_toolBar.add(factory.makeLoadXmiAction());
+		_toolBar.add(factory.makeNewAction());
+		_toolBar.add(factory.makeSaveAction());
+		_toolBar.add(factory.makeLineAction());
+		_toolBar.add(factory.makeClassAction());
+		_panelToolbar.add(_toolBar,BorderLayout.WEST);
+		_panelToolbar.setVisible(true);
+		desktop.add(_panelToolbar,BorderLayout.NORTH);	
+	}
+   	
+	/**
+	 * Method getActiveCanvasFrame.
+	 * @return UMLCanvasFrame
+	 */
+	public ShapeCanvas getActiveCanvasFrame(){
+		return _selectedFrame;
+		
+	}
+	public JInternalFrame getActiveInternalFrame(){
+		return _desktop.getSelectedFrame();
+	}
+	public void setActiveCanvasFrame(ShapeCanvas active){
+			_selectedFrame = active;
+	} 
+	 
+    
+	public void setStatus(String s){
+		_status.addStatusLine(s);	
+	}
+	
+	protected JMenuBar createMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menuFile = new JMenu("File");
+		JMenu menuView = new JMenu("View");
+		JMenuItem menuItem = new JMenuItem("New UML canvas");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				newFrame("");
+			}
+		});
+		menuFile.add(menuItem);       
+		menuBar.add(menuFile);
+		menuBar.add(menuView);
+
+		return menuBar;
+	}
+	
+	public void newFrame(String name) {
+		ShapeCanvas canvas = new ShapeCanvas(5000, 5000);
+		canvas.addPropertyChangeListener(this);
+		int id = ShapeCanvas.getCanvasNewNumber();
+		
+		JScrollPane scroll = new JScrollPane(canvas);
+		scroll.putClientProperty("canvas", canvas);
+		scroll.setPreferredSize(new Dimension(500,500));
+	//	pictureScrollPane.setPreferredSize(new Dimension(300, 250));
+		scroll.setViewportBorder(BorderFactory.createLineBorder(Color.black));		
+		setActiveCanvasFrame(canvas);
+
+		String n = (name=="") ? "Untitled_" + _iFrameCount : name;
+		JInternalFrame jif =
+			new JInternalFrame(
+				n,
+				true,
+				true,
+				true,
+				true);
+				
+		jif.putClientProperty("canvas", canvas);		
+		
+		
+//		Create and set up the content pane.
+			//  JComponent newContentPane = canvas;
+			  //newContentPane.setOpaque(true); //content panes must be opaque
+			  //jif.setContentPane(newContentPane);
+		
+		//scroll.setPreferredSize(new Dimension(500, 500));
+		jif.addInternalFrameListener(this);
+	
+		jif.setBounds(
+			0,0,
+			_desktop.getSize().width,
+			_desktop.getSize().height);
+		jif.setContentPane(scroll);	
+		//jif.getContentPane().add(scroll);
+		_desktop.add(jif);
+		try {
+			jif.setSelected(true);
+			jif.setVisible(true);
+		} catch (PropertyVetoException pve) {
+			System.out.println("Could not select " + jif.getTitle());
+		}
+		/*try {
+			  String name = UIManager.getSystemLookAndFeelClassName();
+			  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			  UIManager.put("InternalFrame.activeTitleBackground", Color.red);
+			  UIManager.put("InternalFrame.activeTitleForeground", Color.white);
+			  UIManager.put("InternalFrame.inactiveTitleBackground", Color.blue);
+			  UIManager.put("InternalFrame.inactiveTitleForeground", Color.white);
+			}
+			catch (Exception e) {
+			  System.err.println("Createframe...");
+			  e.printStackTrace();
+			}*/
+		_iFrameCount++;
+	}
+	
+	
+	public JPanel getTreePanel(){
+		return _panelLeftSide;
+	}
+    
+	public UserPreferences getUserPrefs(){
+		return this._config.getUserPreferences();
+	}
+     
+	private static void createAndShowGUI() {
+		JFrame.setDefaultLookAndFeelDecorated(true);
+
+	   //Create and set up the window.
+	   Main frame = Main.getInstance();
+	  
+	   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	   frame.getContentPane().doLayout();
+	   frame.getActiveCanvasFrame().repaint();
+	   //Create and set up the content pane.
+	   //Main newContentPane = Main.getInstance();
+	   
+
+
+
+	   //Display the window.
+	   frame.pack();
+	   frame.setVisible(true);
+	}  
+        
+	public static void main(String[] args) {
+	/*	Main frame = Main.getInstance();
+		frame.pack();
+		frame.getContentPane().doLayout();
+		frame.setVisible(true); 
+		frame.getActiveCanvasFrame().repaint();
+		*/
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						createAndShowGUI();
+					}
+		});
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.InternalFrameListener#internalFrameOpened(javax.swing.event.InternalFrameEvent)
+	 */
+	public void internalFrameOpened(InternalFrameEvent e) {
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.InternalFrameListener#internalFrameClosing(javax.swing.event.InternalFrameEvent)
+	 */
+	public void internalFrameClosing(InternalFrameEvent e) {
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.InternalFrameListener#internalFrameClosed(javax.swing.event.InternalFrameEvent)
+	 */
+	public void internalFrameClosed(InternalFrameEvent e) {
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.InternalFrameListener#internalFrameIconified(javax.swing.event.InternalFrameEvent)
+	 */
+	public void internalFrameIconified(InternalFrameEvent e) {
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.InternalFrameListener#internalFrameDeiconified(javax.swing.event.InternalFrameEvent)
+	 */
+	public void internalFrameDeiconified(InternalFrameEvent e) {
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.InternalFrameListener#internalFrameActivated(javax.swing.event.InternalFrameEvent)
+	 */
+	public void internalFrameActivated(InternalFrameEvent e) {
+		this.setActiveCanvasFrame((ShapeCanvas)e.getInternalFrame().getClientProperty("canvas"));
+		this._selectedFrame.repaint();
+	
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.InternalFrameListener#internalFrameDeactivated(javax.swing.event.InternalFrameEvent)
+	 */
+	public void internalFrameDeactivated(InternalFrameEvent e) {
+	}
+
+	/* (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	public void propertyChange(PropertyChangeEvent arg0) {
+		if(arg0.getPropertyName().equals("mouse")){
+			this.statusBar.setMouseX_Y(Integer.parseInt(arg0.getOldValue().toString()),Integer.parseInt(arg0.getNewValue().toString()));
+		}
+	}
+	/**
+	 * @return
+	 */
+	public StatusBar getStatusBar() {
+		return statusBar;
+	}
+
+}
